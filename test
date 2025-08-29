@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Biology Quiz (Class 11 & 12)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f8fc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .question {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ecf0f1;
+      text-align: left;
+      transition: background 0.3s;
+    }
+    .options button:hover {
+      background: #d0e6fa;
+    }
+    .options button.correct {
+      background: #2ecc71;
+      color: white;
+    }
+    .options button.wrong {
+      background: #e74c3c;
+      color: white;
+    }
+    .explanation {
+      margin-top: 10px;
+      display: none;
+      font-size: 14px;
+    }
+    #score-container {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Biology Quiz (Class 11 & 12)</h1>
+    <div id="quiz"></div>
+    <div id="score-container"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      // ---- Class 11 Chapter 1 (The Living World) ----
+      {
+        question: "1. The scientific study of naming, describing, and classifying organisms is called:",
+        options: ["Ecology", "Taxonomy", "Morphology", "Anatomy"],
+        answer: 1,
+        explanation: "Taxonomy deals with classification, naming, and identification of
