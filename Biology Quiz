@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Biology Quiz (Class 11 & 12)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .quiz-container {
+      width: 100%;
+      max-width: 1000px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .question {
+      font-size: 20px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #ecf0f1;
+      cursor: pointer;
+      text-align: left;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .options button:hover { background: #dcdde1; }
+    .correct { background: #2ecc71 !important; color: white; }
+    .wrong { background: #e74c3c !important; color: white; }
+    .explanation {
+      margin: 10px 0 20px;
+      padding: 10px;
+      border-left: 4px solid #3498db;
+      background: #f0f6ff;
+      display: none;
+    }
+    .result {
+      margin-top: 25px;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Biology Quiz (Class 11 & 12)</h1>
+    <div id="quiz"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      // Class 11 Chapter 1 - The Living World
+      {
+        question: "Q1. Which is the correct sequence in taxonomy hierarchy?",
+        options: ["Phylum → Class → Order → Family → Genus → Species", "Class → Phylum → Family → Genus → Order → Species", "Order → Class → Phylum → Family → Genus → Species", "Species → Genus → Family → Order → Class → Phylum"],
+        answer: 0,
+        explanation: "The correct taxonomic hierarchy is Kingdom → Phylum → Class → Order → Family → Genus → Species."
+      },
+      {
+        question: "Q2. Who is regarded as the father of taxonomy?",
+        options: ["Darwin", "Linnaeus", "Mendel", "Aristotle"],
+        answer: 1,
+        explanation: "Carl Linnaeus is regarded as the father of taxonomy."
+      },
+
+      // Class 11 Chapter 2 - Biological Classification
+      {
+        question: "Q3. Five kingdom classification was proposed by?",
+        options: ["R.H. Whittaker", "Linnaeus", "Darwin", "Malthus"],
+        answer: 0,
+        explanation: "R.H. Whittaker proposed the five-kingdom classification in 1969."
+      },
+      {
+        question: "Q4. Which kingdom includes blue-green algae?",
+        options: ["Plantae", "Protista", "Monera", "Fungi"],
+        answer: 2,
+        explanation: "Blue-green algae (cyanobacteria) belong to Kingdom Monera."
+      },
+
+      // Class 11 Chapter 3 - Plant Kingdom
+      {
+        question: "Q5. Bryophytes are called amphibians of the plant kingdom because?",
+        options: ["They can grow in desert", "They require water for fertilization", "They have vascular tissues", "They bear seeds"],
+        answer: 1,
+        explanation: "Bryophytes require water for fertilization, hence called amphibians of the plant kingdom."
+      },
+      {
+        question: "Q6. Which of the following is a pteridophyte?",
+        options: ["Marchantia", "Pinus", "Fern", "Cycas"],
+        answer: 2,
+        explanation: "Ferns are common examples of pteridophytes."
+      },
+
+      // Class 12 Chapter 1 - Reproduction in Organisms
+      {
+        question: "Q7. Offspring formed by asexual reproduction are called?",
+        options: ["Clones", "Hybrids", "Varieties", "Species"],
+        answer: 0,
+        explanation: "Asexual reproduction produces offspring called clones (genetically identical)."
+      },
+      {
+        question: "Q8. Which is the event of sexual reproduction that ensures genetic variation?",
+        options: ["Gamete formation", "Fertilization", "Mitosis", "Cloning"],
+        answer: 1,
+        explanation: "Fertilization (fusion of gametes) introduces genetic variation."
+      },
+
+      // Class 12 Chapter 2 - Sexual Reproduction in Flowering Plants
+      {
+        question: "Q9. In angiosperms, double fertilization results in?",
+        options: ["Zygote & Endosperm", "Embryo & Cotyledon", "Seed & Fruit", "Ovule & Seed coat"],
+        answer: 0,
+        explanation: "Double fertilization produces a zygote (2n) and endosperm (3n)."
+      },
+      {
+        question: "Q10. Pollen grains are produced in?",
+        options: ["Stigma", "Anther", "Ovary", "Style"],
+        answer: 1,
+        explanation: "Pollen grains are produced in the anther of stamens."
+      },
+
+      // Class 12 Chapter 3 - Human Reproduction
+      {
+        question: "Q11. Site of fertilization in humans is?",
+        options: ["Ovary", "Uterus", "Fallopian tube", "Cervix"],
+        answer: 2,
+        explanation: "Fertilization occurs in the fallopian tube (ampulla region)."
+      },
+      {
+        question: "Q12. Which hormone triggers ovulation?",
+        options: ["FSH", "LH", "Estrogen", "Progesterone"],
+        answer: 1,
+        explanation: "Luteinizing hormone (LH) surge triggers ovulation."
+      },
+
+      // More mixed questions to reach 20
+      {
+        question: "Q13. Which of the following is a gymnosperm?",
+        options: ["Wheat", "Pinus", "Mango", "Neem"],
+        answer: 1,
+        explanation: "Pinus is a gymnosperm (non-flowering seed plant)."
+      },
+      {
+        question: "Q14. In Monera, DNA is?",
+        options: ["Enclosed in nucleus", "Circular & naked", "Linear & histone-bound", "Absent"],
+        answer: 1,
+        explanation: "In Monera (prokaryotes), DNA is circular and naked."
+      },
+      {
+        question: "Q15. Seed habit first appeared in?",
+        options: ["Pteridophytes", "Gymnosperms", "Bryophytes", "Thallophytes"],
+        answer: 1,
+        explanation: "Seed habit first appeared in gymnosperms."
+      },
+      {
+        question: "Q16. Which structure in flower develops into fruit?",
+        options: ["Ovary", "Ovule", "Embryo sac", "Endosperm"],
+        answer: 0,
+        explanation: "Ovary of flower develops into fruit."
+      },
+      {
+        question: "Q17. In human males, sperms are produced in?",
+        options: ["Prostate gland", "Seminiferous tubules", "Epididymis", "Vas deferens"],
+        answer: 1,
+        explanation: "Sperms are produced in the seminiferous tubules of testes."
+      },
+      {
+        question: "Q18. Which stage of meiosis is crucial for genetic recombination?",
+        options: ["Metaphase I", "Anaphase I", "Prophase I", "Telophase I"],
+        answer: 2,
+        explanation: "Crossing over during Prophase I ensures genetic recombination."
+      },
+      {
+        question: "Q19. Which kingdom includes unicellular eukaryotes?",
+        options: ["Monera", "Protista", "Fungi", "Plantae"],
+        answer: 1,
+        explanation: "Unicellular eukaryotes are grouped under Kingdom Protista."
+      },
+      {
+        question: "Q20. Placenta is formed by?",
+        options: ["Embryo only", "Uterus only", "Both embryo & uterine tissue", "Amniotic fluid"],
+        answer: 2,
+        explanation: "Placenta forms by interaction between embryo and uterine tissues."
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    const resultContainer = document.getElementById("result");
+    let score = 0;
+
+    quizData.forEach((q, index) => {
+      const questionDiv = document.createElement("div");
+      questionDiv.classList.add("question-block");
+
+      const questionEl = document.createElement("div");
+      questionEl.classList.add("question");
+      questionEl.innerText = q.question;
+      questionDiv.appendChild(questionEl);
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.classList.add("options");
+
+      q.options.forEach((opt, i) => {
+        const button = document.createElement("button");
+        button.innerText = opt;
+        button.addEventListener("click", () => {
+          if (!button.parentNode.classList.contains("answered")) {
+            button.parentNode.classList.add("answered");
+            if (i === q.answer) {
+              button.classList.add("correct");
+              score++;
+            } else {
+              button.classList.add("wrong");
+              optionsDiv.children[q.answer].classList.add("correct");
+            }
+            explanationDiv.style.display = "block";
+            if (index === quizData.length - 1) {
+              resultContainer.innerText = `You scored ${score} / ${quizData.length}`;
+            }
+          }
+        });
+        optionsDiv.appendChild(button);
+      });
+
+      const explanationDiv = document.createElement("div");
+      explanationDiv.classList.add("explanation");
+      explanationDiv.innerText = "Explanation: " + q.explanation;
+
+      questionDiv.appendChild(optionsDiv);
+      questionDiv.appendChild(explanationDiv);
+      quizContainer.appendChild(questionDiv);
+    });
+  </script>
+</body>
+</html>
